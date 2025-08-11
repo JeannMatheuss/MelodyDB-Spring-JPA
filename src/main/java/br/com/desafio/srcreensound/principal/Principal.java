@@ -1,9 +1,12 @@
 package br.com.desafio.srcreensound.principal;
 
 import br.com.desafio.srcreensound.model.Artista;
+import br.com.desafio.srcreensound.model.Musica;
 import br.com.desafio.srcreensound.model.TipoArtista;
 import br.com.desafio.srcreensound.repository.ArtistaRepository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Principal {
@@ -76,9 +79,24 @@ public class Principal {
     }
 
     private void cadastrarMusicas() {
+        System.out.println("Cadastrar de que artista? ");
+        var nome = leitura.nextLine();
+        Optional<Artista> artista = repositorio.findByNomeContainingIgnoreCase(nome);
+        if (artista.isPresent()) {
+            System.out.println("Informe o titulo da musica: ");
+            var nomeMusica = leitura.nextLine();
+            Musica musica = new Musica(nomeMusica);
+            musica.setArtista(artista.get());
+            artista.get().getMusicas().add(musica);
+            repositorio.save(artista.get());
+        } else{
+            System.out.println("Artista não encontrado!");
+        }
     }
 
     private void listarMusicas() {
+        List<Artista> artistas = repositorio.findAll();
+        artistas.forEach(System.out::println);
     }
 
     private void buscarMusicasPorArtista() {
