@@ -1,9 +1,18 @@
 package br.com.desafio.srcreensound.principal;
 
+import br.com.desafio.srcreensound.model.Artista;
+import br.com.desafio.srcreensound.model.TipoArtista;
+import br.com.desafio.srcreensound.repository.ArtistaRepository;
+
 import java.util.Scanner;
 
 public class Principal {
+    private final ArtistaRepository repositorio;
     private Scanner leitura = new Scanner(System.in);
+
+    public Principal(ArtistaRepository repositorio) {
+        this.repositorio = repositorio;
+    }
 
     public void exibeMenu() {
         var opcao = -1;
@@ -51,6 +60,19 @@ public class Principal {
     }
 
     private void cadastrarArtistas() {
+        var cadastrarNovo = "S";
+
+        while(cadastrarNovo.equalsIgnoreCase("s")) {
+        System.out.println("Informe o nome desse artista: ");
+        var nome = leitura.nextLine();
+        System.out.println("Informe o tipo desse artista: ");
+        var tipo = leitura.nextLine();
+        TipoArtista tipoArtista = TipoArtista.valueOf(tipo.toUpperCase());
+        Artista artista = new Artista(nome, tipoArtista);
+        repositorio.save(artista);
+        System.out.println("Cadastrar novo artista? (S/N)");
+        cadastrarNovo = leitura.nextLine();
+        }
     }
 
     private void cadastrarMusicas() {

@@ -9,6 +9,7 @@ public class Musica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String titulo;
+    @ManyToOne
     private Artista artista;
 
     public long getId() {
