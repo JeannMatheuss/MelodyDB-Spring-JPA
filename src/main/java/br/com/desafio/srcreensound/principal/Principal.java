@@ -4,6 +4,7 @@ import br.com.desafio.srcreensound.model.Artista;
 import br.com.desafio.srcreensound.model.Musica;
 import br.com.desafio.srcreensound.model.TipoArtista;
 import br.com.desafio.srcreensound.repository.ArtistaRepository;
+import br.com.desafio.srcreensound.service.ConsultaChatGPT;
 
 import java.util.List;
 import java.util.Optional;
@@ -107,5 +108,9 @@ public class Principal {
     }
 
     private void pesquisarDadosDoArtista() {
+        System.out.println("Pesquisar dados sobre qual artista? ");
+        var nome = leitura.nextLine();
+        var resposta = ConsultaChatGPT.obterInformacao(nome);
+        System.out.println(resposta.trim());
     }
 }
